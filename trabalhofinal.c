@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <pthread.h>
-
+//definindo a quantidade de threads
 #define NUM_THREADS 5
-
+//estrutura com todos parâmetros necessários
 typedef struct {
     int m;
     int n;
