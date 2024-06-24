@@ -16,3 +16,4 @@ typedef struct {
     int *e;
 } argum;
 ```
+A primeira coisa a se fazer é adicionar os cabeçalho necessários para a construção do programa. Vamos usar a biblioteca padrão, a stdio.h, para funções de entrada/saida; A biblioteca stdlib.h para alocação dinâmica; math.h para funções matemáticas e a pthread.h para a progamação paralela com o uso de threads. 
