@@ -1,10 +1,20 @@
+/*O nosso código consiste em um programa que lerá 3 matrizes (A,B,C). Após a leitura das matrizes,
+o programa somará a matriz A com a matriz B e gravará o resultado em uma matriz D. Após isso,
+será feito o produto entre a matriz C e a matriz D, resultando na matriz E que também será gravada em um arquivo.
+Todas as matrizes possuem a extensão .dat e as matrizes A,B e C terão de estar previamente na mesma pasta do programa. */
+
+
+
+
+//Bibliotecas usadas, stdlib.h para alocação dinâmicae,
+//math.h para determinadas funções matemáticas e Pthreads para o programação paralela
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <pthread.h>
-//definindo a quantidade de threads
+//definindo o numero de threads à serem utilizadas
 #define NUM_THREADS 5
-//estrutura com todos parâmetros necessários
+//estrutura com todos os parâmetros que serão utilizadas nas threads
 typedef struct {
     int m;
     int n;
@@ -81,12 +91,17 @@ void* readc(void* args) {
 }
 
 // Função para somar a matriz A e a B
-void* soma(void* args) {
-    argum* ms = (argum*)args;
+void* soma(void* arg) {
+    clock_t inicio, fim;
+    double tempoTotal;
+
+    argum* ms = (argum*)arg;
     int m = ms->m;
     int n = ms->n;
     int i, j;
     ms->d = (int*)malloc(m * n * sizeof(int));
+
+    inicio = clock();
 
     // Somando a matriz A com a B
     for (i = 0; i < m; i++) {
@@ -94,6 +109,11 @@ void* soma(void* args) {
             ms->d[i * n + j] = ms->a[i * n + j] + ms->b[i * n + j];
         }
     }
+
+    fim = clock() - inicio;
+    tempoTotal = ((double) fim) / CLOCKS_PER_SEC;
+    printf("A função soma() gastou %f segundos. \n", tempoTotal);
+
     pthread_exit(NULL);
 }
 
@@ -116,12 +136,17 @@ void* writed(void* args) {
 }
 
 // Função para achar o produto entre a matriz C e D
-void* produto(void* args) {
-    argum* ms = (argum*)args;
+void* produto(void* arg) {
+    clock_t inicio, fim;
+    double tempoTotal;
+
+    argum* ms = (argum*)arg;
     int m = ms->m;
     int n = ms->n;
     int i, j, z;
     ms->e = (int*)malloc(m * n * sizeof(int));
+
+    inicio = clock();
 
     for (i = 0; i < m; i++) {
         for (j = 0; j < n; j++) {
@@ -131,6 +156,11 @@ void* produto(void* args) {
             }
         }
     }
+
+    fim = clock() - inicio;
+    tempoTotal = ((double) fim) / CLOCKS_PER_SEC;
+    printf("A função produto() gastou %f segundos. \n", tempoTotal);
+
     pthread_exit(NULL);
 }
 
@@ -153,17 +183,27 @@ void* writee(void* args) {
 }
 
 // Função para redução
-void* reduc(void* args) {
-    argum* ms = (argum*)args;
+void* reduc(void* arg) {
+    clock_t inicio, fim;
+    double tempoTotal;
+
+    argum* ms = (argum*)arg;
     int m = ms->m;
     int n = ms->n;
     int i, j, result = 0;
+
+    inicio = clock();
 
     for (i = 0; i < m; i++) {
         for (j = 0; j < n; j++) {
             result += ms->e[i * n + j];
         }
     }
+
+    fim = clock() - inicio;
+    tempoTotal = ((double) fim) / CLOCKS_PER_SEC;
+    printf("A função reduc() gastou %f segundos. \n", tempoTotal);
+
     printf("%d\n", result);
     pthread_exit(NULL);
 }
