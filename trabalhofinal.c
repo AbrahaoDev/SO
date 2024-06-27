@@ -204,7 +204,7 @@ void* reduc(void* arg) {
     tempoTotal = ((double) fim) / CLOCKS_PER_SEC;
     printf("A função reduc() gastou %f segundos. \n", tempoTotal);
 
-    printf("%d\n", result);
+    printf("Resultado da redução: %d\n", result);
     pthread_exit(NULL);
 }
 
